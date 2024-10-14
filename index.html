@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <script src="script.js"></script>
+    <main>
+        <div id="card">
+            <div id="search">
+                <input type="text" name="city" id="search-city"  placeholder="Search by city">
+                <button type="button" id="srcbtn"><img src="search-logo.png" alt="search-logo"></button>
+            </div>
+            <div id="weather">
+                <img src="drizzle.png" alt="weather-icon" id="weather-icon">
+                <h1 id="temp">22&deg;C</h1>
+                <h2 id="city">New Delhi</h2>
+                <h5 id="type"></h5>
+                <div id="details">
+                    <div id="col">
+                        <img src="humid.png" alt="humidity">
+                        <div id="humid-data">
+                            <p id="humi">50%</p>
+                            <p>Humidity</p>
+                        </div>
+                    </div>
+                        <div id="col">
+                            <img src="wind.png" alt="">
+                            <div id="wind-data">
+                                <p id="Speed">15km/h</p>
+                                <p>Wind Speed</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </main>
+</body>
+<script>
+    const apikey = '2a19cbcd1b105f6ee37111528b3e0794';
+    const apiurl = 'https://api.openweathermap.org/data/2.5/weather?units=metric&q=';
+    const userser = document.querySelector('#search-city');
+    const srcbtn = document.querySelector('#srcbtn');
+    const weticon = document.querySelector('#weather-icon')
+    const type = document.querySelector('#type')
+    async function checkWeather(city){
+        const response = await fetch(apiurl +city+ `&appid=${apikey}`);
+        var data  = await response.json();
+        console.log(data);
+        // document.querySelector('#st').innerHTML=
+        document.querySelector('#city').innerHTML=data.name+" ("+data.sys.country+")";
+        document.querySelector('#temp').innerHTML=data.main.temp+"&deg;c";
+        document.querySelector('#humi').innerHTML=data.main.humidity+"%";
+        document.querySelector('#Speed').innerHTML=data.wind.speed+" km/h";
+
+        if (data.weather[0].main=="Clear") {
+            weticon.src= "clear.png";
+            type.innerHTML = "Clear weather";
+            type.style.color="white";
+            type.style.fontWeight="400";
+        }
+        else if(data.weather[0].main=="Thunderstorm"){
+            weticon.src="thunder.png";
+            type.innerHTML = "Thunderstorm";
+            type.style.color="white";
+            type.style.fontWeight="400";
+        }
+        else if(data.weather[0].main=="Rain"){
+            weticon.src="rain.png";
+            type.innerHTML = "HeavyRain";
+            type.style.color="white";
+            type.style.fontWeight="400";
+        }
+        else if(data.weather[0].main=="Drizzle"){
+            weticon.src="drizzle.png";
+            type.innerHTML = "Light rain";
+            type.style.color="white";
+            type.style.fontWeight="400";
+        }
+        else if(data.weather[0].main=="Clouds"){
+            weticon.src="cloudy.png";
+            type.innerHTML ="Cloudy";
+            type.style.color="white";
+            type.style.fontWeight="400";
+        }
+        else if(data.weather[0].main=="Haze"){
+            weticon.src="mist.png";
+            type.innerHTML = "Haze (Fogg)";
+            type.style.color="white";
+            type.style.fontWeight="400";
+        }
+    }
+    srcbtn.addEventListener("click", ()=>{
+        checkWeather(userser.value);
+    })
+    // checkWeather();
+</script>
+</html>
