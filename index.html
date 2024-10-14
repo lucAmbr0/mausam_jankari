@@ -92,6 +92,12 @@
             type.style.color="white";
             type.style.fontWeight="400";
         }
+        else if(data.weather[0].main=="Mist"){
+            weticon.src="mist.png";
+            type.innerHTML = "Haze (Fogg)";
+            type.style.color="white";
+            type.style.fontWeight="400";
+        }
     }
     srcbtn.addEventListener("click", ()=>{
         checkWeather(userser.value);
