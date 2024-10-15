@@ -59,7 +59,8 @@
         const currentHour = new Date().getHours();
         if (data.weather[0].main=="Clear") {
             if (currentHour >= 18 || currentHour < 6) {
-            weticon.src = "moon.png"; // Use moon icon if it's nighttime
+            weticon.src = "moon.png";
+            weticon.style.filter = 'brightness(-150%)';// Use moon icon if it's nighttime
         } else {
             weticon.src = "clear.png"; // Use sun icon during the day
         }
