@@ -8,7 +8,7 @@
      <link rel="shortcut icon" href="drizzle.png" type="image/x-icon">
 </head>
 <body>
-    <script src="script.js"></script>
+<!--     <script src="script.js"></script> -->
     <main>
         <div id="card">
             <div id="search">
@@ -41,17 +41,17 @@
     </main>
 </body>
 <script>
-     const card = document.querySelector('#card');
+    const card = document.querySelector('#card');
     
     if (currentHour >= 18 || currentHour < 6) {
     card.style.backgroundImage = "url('night.jpg')";
     card.style.backgroundSize = "cover";
     card.style.backgroundPosition = "top";
     card.style.background = "none"; // Clear any gradient
-} else {
+    } else {
     card.style.background = "linear-gradient(146deg, rgba(31,195,193,0.34) 0%, rgba(1,45,187,0.53) 100%)";
     card.style.backgroundImage = "none"; // Clear any background image
-}
+    }
     const apikey = '2a19cbcd1b105f6ee37111528b3e0794';
     const apiurl = 'https://api.openweathermap.org/data/2.5/weather?units=metric&q=';
     const userser = document.querySelector('#search-city');
