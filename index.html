@@ -44,10 +44,12 @@
     const card = document.querySelector('#card');
     const currentHour = new Date().getHours();
     if (currentHour >= 18 || currentHour < 6) {
-    card.style.backgroundImage = "url('night.jpg')";
-    card.style.backgroundSize = "cover";
-    card.style.backgroundPosition = "top";
-    card.style.background = "none"; // Clear any gradient
+    card.style.background = `
+    linear-gradient(146deg, rgba(25,25,112,0.8) 0%, rgba(72,61,139,0.85) 50%, rgba(0,0,51,0.9) 100%),
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 20%),
+    radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 20%)
+    `;
+
     } else {
     card.style.background = "linear-gradient(146deg, rgba(31,195,193,0.34) 0%, rgba(1,45,187,0.53) 100%)";
     card.style.backgroundImage = "none"; // Clear any background image
