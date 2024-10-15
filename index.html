@@ -42,7 +42,7 @@
 </body>
 <script>
     const card = document.querySelector('#card');
-    
+    const currentHour = new Date().getHours();
     if (currentHour >= 18 || currentHour < 6) {
     card.style.backgroundImage = "url('night.jpg')";
     card.style.backgroundSize = "cover";
