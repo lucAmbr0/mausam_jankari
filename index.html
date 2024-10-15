@@ -55,9 +55,13 @@
         document.querySelector('#temp').innerHTML=data.main.temp+"&deg;c";
         document.querySelector('#humi').innerHTML=data.main.humidity+"%";
         document.querySelector('#Speed').innerHTML=data.wind.speed+" km/h";
-
+        const currentHour = new Date().getHours();
         if (data.weather[0].main=="Clear") {
-            weticon.src= "clear.png";
+            if (currentHour >= 18 || currentHour < 6) {
+            weticon.src = "moon.png"; // Use moon icon if it's nighttime
+        } else {
+            weticon.src = "clear.png"; // Use sun icon during the day
+        }
             type.innerHTML = "Clear weather";
             type.style.color="white";
             type.style.fontWeight="400";
