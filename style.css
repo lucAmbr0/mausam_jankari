@@ -63,18 +63,28 @@ input {
     height: 150px;
     filter: contrast(200%);
     border-radius: 50%;
+    animation: popOut 0.4s ease forwards;
 }
 #temp {
     margin: 10px;
     color: white;
     font-size: 50px;
     font-weight: 500;
+    animation: enterUp 0.4s ease forwards;
 }
 #city {
     margin: 10px;
     color: white;
     font-size: 31px;
     font-weight: 500;
+    opacity: 0;
+    animation: enterUp 0.4s 0.1s ease forwards;
+}
+#type {
+    color: white;
+    font-weight: 400;
+    opacity: 0;
+    animation: enterUp 0.4s 0.1s ease forwards;
 }
 #details {
     width: 110%;
@@ -95,6 +105,8 @@ input {
     filter: brightness(500);
     position: relative;
     top: 8px;
+    opacity: 0;
+    animation: popOut 0.35s 0.3s ease forwards;
 }
 #col {
     display: flex;
@@ -104,6 +116,8 @@ input {
 #humid-data, #wind-data {
     font-weight: 400;
     font-size: 15px;
+    opacity: 0;
+    animation: enterRight 0.35s 0.4s ease forwards;
 }
 #humi, #Speed {
     font-size: 25px;
@@ -133,5 +147,40 @@ input {
     }
     #humi, #Speed {
         font-size: 20px;
+    }
+}
+
+@keyframes enterUp {
+    from {
+        opacity: 0%;
+        transform: translateY(20%);
+    }
+    to {
+        opacity: 100%;
+        transform: translateY(0%);
+
+    }
+}
+
+@keyframes enterRight {
+    from {
+        opacity: 0%;
+        transform: translateX(-20%);
+    }
+    to {
+        opacity: 100%;
+        transform: translateX(0%);
+
+    }
+}
+
+@keyframes popOut {
+    from {
+        opacity: 0%;
+        scale: 0.7;
+    }
+    to {
+        opacity: 100%;
+        scale: 1;
     }
 }
