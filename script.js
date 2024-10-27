@@ -1,70 +1,91 @@
-function makeBubble(){
-    var clutter = "";
-for( var i=1;i<=140;i++){
-    var rn = Math.floor(Math.random()*10);  
-    clutter += `<div id="bube">${rn}</div>`;
+const card = document.querySelector('#card');
+const currentHour = new Date().getHours();
+if (currentHour >= 18 || currentHour < 6) {
+    card.style.background = `
+    linear-gradient(146deg, rgba(25,25,112,0.8) 0%, rgba(72,61,139,0.85) 50%, rgba(0,0,51,0.9) 100%),
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 20%),
+    radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 20%)
+    `;
+    card.style.border = '0.3px solid violet';
 }
-document.querySelector("#pbtm").innerHTML = clutter;
-}
-var  timer=60;
-function tickingtimer(){
-    var timerint = setInterval(function () {
-        if(timer>0){
-            timer--;
-        document.querySelector(".timer").innerHTML=timer;
-        }
-        else{
-            clearInterval(timerint);
-            var overlay2 = document.querySelector('#overlay2')
-            var respop = document.querySelector('#respop');
-            overlay2.style.display='flex';
-            respop.style.display='block';
-            document.querySelector('#scoref').innerHTML=score;
-    
-            }
-    }, 1000)
-}
+const apikey = '2a19cbcd1b105f6ee37111528b3e0794';
+const apiurl = 'https://api.openweathermap.org/data/2.5/weather?units=metric&q=';
+const userser = document.querySelector('#search-city');
+const srcbtn = document.querySelector('#srcbtn');
+const weticon = document.querySelector('#weather-icon')
+const type = document.querySelector('#type')
 
-function hitc(){
-    var rn = Math.floor(Math.random()*10);
-    document.querySelector(".hit").textContent=rn;
-}
-var score = 0;
-function incresescore() {
-    score += 10;
-    document.querySelector('.score').textContent=score;
-}
-document.querySelector('#pbtm').addEventListener("click",function (dets) {
-    var hitnum = parseInt(document.querySelector('.hit').innerHTML);
-    let buble = parseInt(dets.target.innerHTML);
-    if (buble==hitnum) {
-        incresescore();
-        hitc();
-        makeBubble();
+// Function to check weather and validate city
+async function checkWeather(city) {
+    // Apply animation to search section
+    const searchSection = document.getElementById("searchSection");
+    searchSection.classList.add("animate-search");
+
+    // Remove animation class after animation ends
+    setTimeout(() => {
+        searchSection.classList.remove("animate-search");
+    }, 400);
+
+    // Fetch weather data
+    const response = await fetch(apiurl + city + `&appid=${apikey}`);
+    if (!response.ok) {
+        alert("City not found. Enter a valid CITY name.");
+        return;
     }
-})
-function start() {
-    
-var pop = document.querySelector('#overlay');
-var inner =  document.querySelector('#cont');
 
-pop.style.display='none';
-inner.style.display='none';
-    hitc();
-tickingtimer();
-makeBubble();
-}
-function restart() {
-    score = 0;//reseting the score to zero after restart button is clicked
-    document.querySelector('.score').textContent=score;
-    var overlay2 = document.querySelector('#overlay2')
-    var respop = document.querySelector('#respop');
-    
-    overlay2.style.display='none';
-    respop.style.display='none';
-    hitc()//called the hitc function to generate random hit numbers
-    tickingtimer();//calling the timer function
-    makeBubble();//creating bubbles again 
-    timer = 60;//reseting the timer to 60 sec a
+    const data = await response.json();
+    console.log(data);
+
+    document.querySelector('#city').innerHTML = data.name + " (" + data.sys.country + ")";
+    document.querySelector('#temp').innerHTML = data.main.temp + "&deg;c";
+    document.querySelector('#humi').innerHTML = data.main.humidity + "%";
+    document.querySelector('#Speed').innerHTML = data.wind.speed + " km/h";
+
+    // Weather icons and descriptions based on time of day
+    const currentHour = new Date().getHours();
+    if (data.weather[0].main == "Clear") {
+        if (currentHour >= 18 || currentHour < 6) {
+            weticon.src = "moon.png";
+        } else {
+            weticon.src = "clear.png";
+        }
+        type.innerHTML = "Clear weather";
+        type.style.color = "white";
+        type.style.fontWeight = "400";
+    } else if (data.weather[0].main == "Thunderstorm") {
+        weticon.src = "thunder.png";
+        type.innerHTML = "Thunderstorm";
+        type.style.color = "white";
+        type.style.fontWeight = "400";
+    } else if (data.weather[0].main == "Rain") {
+        weticon.src = "rain.png";
+        type.innerHTML = "Heavy Rain";
+        type.style.color = "white";
+        type.style.fontWeight = "400";
+    } else if (data.weather[0].main == "Drizzle") {
+        weticon.src = "drizzle.png";
+        type.innerHTML = "Light rain";
+        type.style.color = "white";
+        type.style.fontWeight = "400";
+    } else if (data.weather[0].main == "Clouds") {
+        weticon.src = "cloudy.png";
+        type.innerHTML = "Cloudy";
+        type.style.color = "white";
+        type.style.fontWeight = "400";
+    } else if (data.weather[0].main == "Haze" || data.weather[0].main == "Mist") {
+        weticon.src = "mist.png";
+        type.innerHTML = "Haze/Fog";
+        type.style.color = "white";
+        type.style.fontWeight = "400";
+    }
 }
 
+// Event listeners for search button and Enter key
+srcbtn.addEventListener("click", () => {
+    checkWeather(userser.value.trim());
+});
+userser.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        checkWeather(userser.value.trim());
+    }
+});
